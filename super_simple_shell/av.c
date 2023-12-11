@@ -8,7 +8,8 @@
 int main(int ac, char **av)
 {
 	int i;
-	for(i = 0; i < ac; i++)
+
+	for (i = 0; i < ac; i++)
 	{
 		(void) ac;
 		printf("%s\n", av[i]);
