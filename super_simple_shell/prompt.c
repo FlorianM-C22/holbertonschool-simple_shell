@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 /**
  * main - prints all arguments without using ac
  * Return: number of characters read
@@ -14,9 +15,10 @@ int main (void)
 	printf("$ ");
 
 	read = getline(&cmd, &len, stdin);
+	len = (strlen(cmd) - 1);
 
 	if (read != -1)
-		printf("%s", cmd);
+		printf("%s\n", cmd);
 
 	else
 		fprintf(stderr, "Error reading input\n");
