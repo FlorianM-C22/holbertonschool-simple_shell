@@ -2,11 +2,11 @@
 #include<stdlib.h>
 #include<string.h>
 /**
- * main - prints all arguments without using ac
+ * main - prints the command entered by a user on the next line
  * Return: number of characters read
 */
 
-int main (void)
+int main(void)
 {
 	char *cmd = NULL;
 	size_t len = 0;
