@@ -1,5 +1,7 @@
 {
 	"files.associations": {
-		"exec_ls": "c"
+		"exec_ls": "c",
+		"stdio.h": "c",
+		"unistd.h": "c"
 	}
 }
