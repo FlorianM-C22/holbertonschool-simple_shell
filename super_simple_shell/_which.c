@@ -12,6 +12,7 @@
 void _which(const char *filename)
 {
 	char *path_env = getenv("PATH");
+	char *path_copy, *token;
 
 	if (path_env == NULL)
 	{
@@ -19,8 +20,8 @@ void _which(const char *filename)
 		return;
 	}
 
-	char *path_copy = strdup(path_env);
-	char *token = strtok(path_copy, ":");
+	path_copy = strdup(path_env);
+	token = strtok(path_copy, ":");
 
 	while (token != NULL)
 	{
@@ -50,13 +51,15 @@ void _which(const char *filename)
  */
 int main(int argc, char *argv[])
 {
+	int i;
+
 	if (argc < 2)
 	{
 		fprintf(stderr, "Usage: %s filename ...\n", argv[0]);
 		return (1);
 	}
 
-	for (int i = 1; i < argc; i++)
+	for (i = 1; i < argc; i++)
 	{
 		_which(argv[i]);
 	}
