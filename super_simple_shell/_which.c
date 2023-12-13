@@ -11,7 +11,7 @@
  */
 void _which(const char *filename)
 {
-		/*Resolve the value of the PATH environment variable*/
+	/*Resolve the value of the PATH environment variable*/
 	char *path_env = getenv("PATH");
 	char *path_copy, *token;
 
