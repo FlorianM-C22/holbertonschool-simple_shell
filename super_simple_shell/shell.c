@@ -6,7 +6,7 @@
 
 #define MAX_INPUT_SIZE 1024
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	char input[MAX_INPUT_SIZE]; /*Buffer to store user input*/
 	pid_t child_pid;			/*Process ID for the child process*/
@@ -15,22 +15,16 @@ int main(void)
 	while (1)
 	{
 		printf("$ "); /*Waiting for user input*/
-
 		/*Reads user input*/
 		if (fgets(input, sizeof(input), stdin) == NULL)
 		{
 			perror("fgets");
 			exit(EXIT_FAILURE);
 		}
-
 		/*Remove the newline character at the end of the input*/
 		input[strcspn(input, "\n")] = '\0';
-
-		/*Checks if user wants to exit*/
-		if (strcmp(input, "exit") == 0)
+		if (strcmp(input, "exit") == 0) /*Checks if user wants to exit*/
 			break;
-
-		/*Fork a new process*/
 		child_pid = fork();
 
 		if (child_pid == -1)
@@ -43,7 +37,6 @@ int main(void)
 		{
 			/* Execute the specified command */
 			execlp(input, input, (char *)NULL);
-
 			/*If execlp fails print an error and exit child process*/
 			perror("execlp");
 			exit(EXIT_FAILURE);
@@ -54,5 +47,5 @@ int main(void)
 			waitpid(child_pid, &status, 0);
 		}
 	}
-	return 0;
+	return (0);
 }
