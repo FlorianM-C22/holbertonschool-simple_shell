@@ -5,8 +5,6 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
-#include <dirent.h>
 
 #define MAX_INPUT_SIZE 1024
 
