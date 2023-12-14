@@ -10,7 +10,7 @@
 
 #define MAX_INPUT_SIZE 1024
 
-int main(int argc, char *argv[])
+int main(void)
 {
 	char *input = NULL;    /* Pointer to store user input */
 	size_t input_size = 0; /* Size of the input buffer */
@@ -19,10 +19,11 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
+		ssize_t bytes_read;
 		printf("$ "); /* Waiting for user input */
 
 		/* Reads user input using getline */
-		ssize_t bytes_read = getline(&input, &input_size, stdin);
+		bytes_read = getline(&input, &input_size, stdin);
 
 		if (bytes_read == -1)
 		{
@@ -56,9 +57,16 @@ int main(int argc, char *argv[])
 		else if (child_pid == 0)
 		{
 			/* Execute the specified command */
-			execlp(input, input, (char *)NULL);
-			/* If execlp fails, print an error and exit the child process */
-			perror("execlp");
+			char *command = input;
+
+			char *args[2];
+			args[0] = command;
+			args[1] = NULL;
+
+			execve(command, args, NULL);
+
+			/* If execve fails, print an error and exit the child process */
+			perror("execve");
 			_exit(EXIT_FAILURE);
 		}
 		else
