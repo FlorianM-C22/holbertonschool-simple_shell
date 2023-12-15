@@ -2,24 +2,26 @@
 
 /**
  * main - check the code
+ * @argc: argument count
+ * @argv: argument value
  * Return: 0 SUCCESS
  */
-int main(void)
+int main(int argc, char *argv[])
 {
+	Command *command;
+	char *input;
+
 	while (1)
 	{
-		/*Display the prompt*/
-		display_prompt();
+		if (isatty(STDIN_FILENO))
+			/*Display the prompt*/
+			display_prompt();
 
 		/*Read user input*/
-		char *input = read_input();
-
-		/*Check for exit command*/
-		if (strcmp(input, "exit") == 0)
-			break;
+		input = read_input();
 
 		/*Parse the user input*/
-		Command *command = parse_input(input);
+		command = parse_input(input);
 
 		/*Execute the command*/
 		execute_command(command);

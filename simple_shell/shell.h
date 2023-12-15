@@ -24,7 +24,6 @@ typedef struct command
 	char **arguments;
 } Command;
 
-
 /*Needed prototype functions*/
 
 #endif
