@@ -22,8 +22,8 @@ typedef struct command
 {
 	char *command_name;
 	char **arguments;
-} Command;
+} command_t;
 
-/*Needed prototype functions*/
+void parse_input(const char *input, command_t *command);
 
 #endif

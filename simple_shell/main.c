@@ -2,33 +2,35 @@
 
 /**
  * main - check the code
- * @argc: argument count
- * @argv: argument value
+ *
  * Return: 0 SUCCESS
  */
-int main(int argc, char *argv[])
+int main(void)
 {
-	Command *command;
+	command_t command;
 	char *input;
+	int interactive;
+
+	interactive = isatty(STDIN_FILENO);
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
-			/*Display the prompt*/
+		/*Checks if interactive mode*/
+		if (interactive)
 			display_prompt();
 
 		/*Read user input*/
 		input = read_input();
 
 		/*Parse the user input*/
-		command = parse_input(input);
+		parse_input(input, &command);
 
 		/*Execute the command*/
-		execute_command(command);
+		execute_command(&command);
 
 		/*Free allocated memory*/
 		free(input);
-		free_command(command);
+		free_command(&command);
 	}
 
 	return (0);

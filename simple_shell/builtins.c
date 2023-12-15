@@ -5,11 +5,12 @@
  * @command: typed command
  * Return: 0 SUCCESS
  */
-void builtins(Command *command)
+void builtins(command_t *command)
 {
 	int i;
+
 	/*Check if statement is NULL*/
-	if (command == NULL || command->argc == 0)
+	if (command == NULL)
 		return;
 
 	/*Check for echo command*/

@@ -6,7 +6,7 @@
 
 #define MAX_INPUT_SIZE 1024
 
-int main(int argc, char *argv[])
+int main(void)
 {
 	char input[MAX_INPUT_SIZE]; /*Buffer to store user input*/
 	pid_t child_pid;			/*Process ID for the child process*/
