@@ -1,74 +1,61 @@
 #include "shell.h"
 
 /**
- * path_handling - search for executable in the PATH
- * @command: command structure
- * @envp: environment pointer
- * Return: 1 if found, 0 if not found
+ * path_handling - searches for the executable in directories specified in PATH
+ * @command: the command structure
+ * Return: void
  */
-int path_handling(command_t *command)
+void path_handling(command_t *command)
 {
-	char *path = getenv("PATH");
-	char *path_copy, *token, *full_path;
-	size_t path_len;
+	char *path_env = NULL;
+	char *path = NULL;
+	char *token = NULL;
+	char *command_path = NULL;
 
-	if (path == NULL)
+	/*Get the PATH environment variable*/
+	path_env = getenv("PATH");
+
+	/*If PATH is not set, return*/
+	if (path_env == NULL)
 	{
-		fprintf(stderr, "Error: PATH environment variable not set\n");
-		return 0;
+		fprintf(stderr, "PATH environment variable is not set.\n");
+		return;
 	}
 
-	path_len = strlen(path);
-	path_copy = malloc(path_len + 2);
+	/*Duplicate the PATH environment variable for tokenization*/
+	path = strdup(path_env);
 
-	if (path_copy == NULL)
-	{
-		perror("Error allocating memory for path_copy");
-		exit(EXIT_FAILURE);
-	}
-
-	strcpy(path_copy, path);
-	path_copy[path_len] = ':';
-	path_copy[path_len + 1] = '\0';
-
-	token = strtok(path_copy, ":");
-
+	/*Tokenize the PATH to get individual directories*/
+	token = strtok(path, ":");
 	while (token != NULL)
 	{
-		full_path = malloc(strlen(token) + strlen(command->command_name) + 2);
+		/*Construct the full path to the executable*/
+		command_path = malloc(strlen(token) + strlen(command->command_name) + 2);
+		sprintf(command_path, "%s/%s", token, command->command_name);
 
-		if (full_path == NULL)
+		/*Check if the executable exists*/
+		if (access(command_path, X_OK) == 0)
 		{
-			perror("Error allocating memory for full_path");
-			exit(EXIT_FAILURE);
+			/*Execute the command*/
+			execute_command(command_path, command);
+
+			/*Free allocated memory*/
+			free(command_path);
+			free(path);
+
+			return;
 		}
 
-		snprintf(full_path, strlen(token) + strlen(command->command_name) + 2, "%s/%s", token, command->command_name);
+		/*Free allocated memory for the current path*/
+		free(command_path);
 
-		printf("Checking path: %s\n", full_path);
-
-		if (access(full_path, X_OK) == 0)
-		{
-			printf("Command found: %s\n", full_path);
-
-			free(command->command_name);
-			command->command_name = strdup(full_path);
-
-			if (command->command_name == NULL)
-			{
-				perror("Error allocating memory for command_name");
-				exit(EXIT_FAILURE);
-			}
-
-			free(full_path);
-			free(path_copy);
-			return 1;
-		}
-
-		free(full_path);
+		/*Move to the next token*/
 		token = strtok(NULL, ":");
 	}
 
-	free(path_copy);
-	return (0);
+	/*If the loop completes, the command was not found*/
+	fprintf(stderr, "Command not found: %s\n", command->command_name);
+
+	/*Free allocated memory*/
+	free(path);
 }

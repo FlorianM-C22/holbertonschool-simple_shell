@@ -29,6 +29,9 @@ int main(int ac, char **av, char **envp)
 		/*Execute the command*/
 		execute_command(&command, envp);
 
+		/*Handle external commands using PATH*/
+		path_handling(&command);
+
 		/*Free allocated memory*/
 		free(input);
 		free_command(&command);

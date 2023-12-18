@@ -1,19 +1,17 @@
 #include "shell.h"
 
-int is_builtin(const char *command_name);
-
 /**
  * execute_command - execute external command
  * @command: command called by the user
- * @envp: environment pointer
+ * @command_path: path to the command
  */
-void execute_command(command_t *command, char **envp)
+void execute_command(const char *command_path, command_t *command)
 {
 	pid_t pid;
-	int status;
+	int status, i;
 
 	if (is_builtin(command->command_name))
-		builtins(command, envp);
+		builtins(command, command_path);
 	/*
 	* else
 	*	if (!path_handling(command))
@@ -23,33 +21,32 @@ void execute_command(command_t *command, char **envp)
 	*	}
 	*/
 
-		pid = fork();
+	pid = fork();
 
-		if (pid == -1)
+	if (pid == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+
+	if (pid == 0)
+	{
+		/* Child process */
+		if (execve(command_path, command->arguments, environ) == -1)
 		{
-			perror("fork");
+			perror("execve");
 			exit(EXIT_FAILURE);
 		}
-		if (pid == 0)
+	}
+	else
+	{
+		/* Parent process */
+		if (waitpid(pid, &status, 0) == -1)
 		{
-			printf("|%s|\n", command->command_name);
-
-			for (int i = 0; envp[i]; i++)
-				printf("%s\n", envp[i]);
-			if (execve(command->command_name, command->arguments, envp) == -1)
-			{
-				perror("execve");
-				exit(EXIT_FAILURE);
-			}
+			perror("waitpid");
+			exit(EXIT_FAILURE);
 		}
-		else
-		{
-			if (waitpid(pid, &status, 0) == -1)
-			{
-				perror("waitpid");
-				exit(EXIT_FAILURE);
-			}
-		}
+	}
 }
 
 /**
