@@ -28,5 +28,7 @@ void parse_input(const char *input, command_t *command);
 void builtins(command_t *command);
 void execute_command(command_t *command);
 int search_in_path(command_t *command);
+void display_prompt(void);
+void free_command(command_t *command);
 
 #endif
