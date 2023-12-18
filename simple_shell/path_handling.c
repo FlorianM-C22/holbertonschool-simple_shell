@@ -46,8 +46,10 @@ void execute_command(const char *full_path, command_t *command)
 		perror("fork");
 		exit(EXIT_FAILURE);
 	}
+
 	if (pid == 0)
 	{
+		/* Child process */
 		if (execve(full_path, command->arguments, environ) == -1)
 		{
 			perror("execve");
@@ -56,6 +58,7 @@ void execute_command(const char *full_path, command_t *command)
 	}
 	else
 	{
+		/* Parent process */
 		if (waitpid(pid, &status, 0) == -1)
 		{
 			perror("waitpid");

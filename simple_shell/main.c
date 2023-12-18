@@ -32,6 +32,7 @@ int main(void)
 		}
 
 		free(input);
+		free_command(&command);
 	}
 
 	return (0);

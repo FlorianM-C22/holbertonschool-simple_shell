@@ -18,18 +18,21 @@ extern char **environ;
 /**
  *struct command - command structure
  *@command_name: name of the command
+ *@has_arguments: checks if arguments or not
  *@arguments: array of arguments
  */
 typedef struct command
 {
 	char *command_name;
 	char **arguments;
+	int *has_arguments;
 } command_t;
 
-void parse_input(const char *input, command_t *command);
 void free_command(command_t *command);
 char *display_prompt(void);
 char *get_path(const char *command_name);
 void execute_command(const char *full_path, command_t *command);
+void parse_input(const char *input, command_t *command);
+void parse_arguments(const char *input, command_t *command);
 
 #endif
