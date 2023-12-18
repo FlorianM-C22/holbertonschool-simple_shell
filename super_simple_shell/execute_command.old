@@ -11,15 +11,21 @@ void execute_command(const char *command_path, command_t *command)
 	int status, i;
 
 	if (is_builtin(command->command_name))
-		builtins(command, command_path);
-	/*
-	* else
-	*	if (!path_handling(command))
-	*	{
-	*		fprintf(stderr, "Command not found: %s\n", command->command_name);
-	*		return;
-	*	}
-	*/
+	{
+		builtins(command);
+	}
+
+	/* Check for NULL in command->arguments */
+	if (command->arguments == NULL)
+	{
+		command->arguments = malloc(sizeof(char *));
+		if (command->arguments == NULL)
+		{
+			perror("Error allocating memory for arguments");
+			exit(EXIT_FAILURE);
+		}
+		command->arguments[0] = NULL;
+	}
 
 	pid = fork();
 
@@ -32,6 +38,13 @@ void execute_command(const char *command_path, command_t *command)
 	if (pid == 0)
 	{
 		/* Child process */
+		printf("Executing command: %s\n", command_path);
+		printf("Arguments:\n");
+		for (i = 0; command->arguments[i] != NULL; ++i)
+		{
+			printf("  %s\n", command->arguments[i]);
+		}
+
 		if (execve(command_path, command->arguments, environ) == -1)
 		{
 			perror("execve");
@@ -57,5 +70,5 @@ void execute_command(const char *command_path, command_t *command)
 int is_builtin(const char *command_name)
 {
 	return (strcmp(command_name, "exit") == 0 ||
-	strcmp(command_name, "echo") == 0);
+			strcmp(command_name, "echo") == 0);
 }

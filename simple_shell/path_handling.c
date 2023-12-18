@@ -1,61 +1,65 @@
 #include "shell.h"
 
 /**
- * path_handling - searches for the executable in directories specified in PATH
- * @command: the command structure
- * Return: void
+ * get_path - Find the full path of the command using PATH environment variable
+ * @command_name: Name of the command
+ * Return: Full path of the command or NULL if not found
  */
-void path_handling(command_t *command)
+char *get_path(const char *command_name)
 {
-	char *path_env = NULL;
-	char *path = NULL;
-	char *token = NULL;
-	char *command_path = NULL;
+	char *path_env = getenv("PATH");
+	char *path = strdup(path_env);
+	char *token = strtok(path, ":");
 
-	/*Get the PATH environment variable*/
-	path_env = getenv("PATH");
-
-	/*If PATH is not set, return*/
-	if (path_env == NULL)
-	{
-		fprintf(stderr, "PATH environment variable is not set.\n");
-		return;
-	}
-
-	/*Duplicate the PATH environment variable for tokenization*/
-	path = strdup(path_env);
-
-	/*Tokenize the PATH to get individual directories*/
-	token = strtok(path, ":");
 	while (token != NULL)
 	{
-		/*Construct the full path to the executable*/
-		command_path = malloc(strlen(token) + strlen(command->command_name) + 2);
-		sprintf(command_path, "%s/%s", token, command->command_name);
+		char *full_path = malloc(strlen(token) + strlen(command_name) + 2);
 
-		/*Check if the executable exists*/
-		if (access(command_path, X_OK) == 0)
+		sprintf(full_path, "%s/%s", token, command_name);
+
+		if (access(full_path, X_OK) == 0)
 		{
-			/*Execute the command*/
-			execute_command(command_path, command);
-
-			/*Free allocated memory*/
-			free(command_path);
 			free(path);
-
-			return;
+			return (full_path);
 		}
-
-		/*Free allocated memory for the current path*/
-		free(command_path);
-
-		/*Move to the next token*/
+		free(full_path);
 		token = strtok(NULL, ":");
 	}
-
-	/*If the loop completes, the command was not found*/
-	fprintf(stderr, "Command not found: %s\n", command->command_name);
-
-	/*Free allocated memory*/
 	free(path);
+	return (NULL);
+}
+
+/**
+ * execute_command - Execute the command using the full path
+ * @full_path: Full path of the command
+ * @command: Command structure
+ */
+void execute_command(const char *full_path, command_t *command)
+{
+	pid_t pid;
+	int status;
+
+	pid = fork();
+
+	if (pid == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		if (execve(full_path, command->arguments, environ) == -1)
+		{
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		if (waitpid(pid, &status, 0) == -1)
+		{
+			perror("waitpid");
+			exit(EXIT_FAILURE);
+		}
+	}
 }

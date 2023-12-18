@@ -13,10 +13,12 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
+extern char **environ;
+
 /**
  *struct command - command structure
  *@command_name: name of the command
- *@arguments: name of the arguments
+ *@arguments: array of arguments
  */
 typedef struct command
 {
@@ -25,11 +27,9 @@ typedef struct command
 } command_t;
 
 void parse_input(const char *input, command_t *command);
-void builtins(command_t *command, char **envp);
-void execute_command(const char *command_path, command_t *command);
-void path_handling(command_t *command);
-char *display_prompt(void);
 void free_command(command_t *command);
-int is_builtin(const char *command_name);
+char *display_prompt(void);
+char *get_path(const char *command_name);
+void execute_command(const char *full_path, command_t *command);
 
 #endif
