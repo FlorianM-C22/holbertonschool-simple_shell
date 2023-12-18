@@ -21,9 +21,6 @@ int main(void)
 		if (interactive)
 			input = display_prompt();
 
-		/*Read user input*/
-		/*input = read_input();*/
-
 		/*Parse the user input*/
 		parse_input(input, &command);
 
@@ -51,7 +48,7 @@ void builtins(command_t *command)
 	if (command == NULL || command->command_name == NULL)
 		return;
 
-/* Check for the echo command */
+	/* Check for the echo command */
 	if (strcmp(command->command_name, "echo") == 0)
 	{
 		for (i = 0; command->arguments[i] != NULL; i++)
