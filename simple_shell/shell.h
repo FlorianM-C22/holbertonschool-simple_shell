@@ -25,5 +25,6 @@ typedef struct command
 } command_t;
 
 void parse_input(const char *input, command_t *command);
+void builtins(command_t *command);
 
 #endif
