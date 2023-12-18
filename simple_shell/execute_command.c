@@ -33,7 +33,7 @@ void execute_command(command_t *command, char **envp)
 		if (pid == 0)
 		{
 			printf("|%s|\n", command->command_name);
-			// printf(command->arguments);
+
 			for (int i = 0; envp[i]; i++)
 				printf("%s\n", envp[i]);
 			if (execve(command->command_name, command->arguments, envp) == -1)

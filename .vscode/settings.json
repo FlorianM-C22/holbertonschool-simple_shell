@@ -3,6 +3,8 @@
 		"exec_ls": "c",
 		"stdio.h": "c",
 		"unistd.h": "c",
-		"path-lists": "c"
-	}
+		"path-lists": "c",
+		"stdbool.h": "c"
+	},
+	"C_Cpp.errorSquiggles": "enabled"
 }

@@ -2,7 +2,9 @@
 
 /**
  * main - check the code
- *
+ * @ac: argument count
+ * @av: argument value
+ * @envp: environment pointer
  * Return: 0 SUCCESS
  */
 int main(int ac, char **av, char **envp)
