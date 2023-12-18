@@ -18,10 +18,8 @@ char *_which(const char *filename, int all_occurrences)
 		fprintf(stderr, "Error: PATH environment variable not found.\n");
 		return (NULL);
 	}
-
 	path_copy = strdup(path_env);
 	token = strtok(path_copy, ":");
-
 	all_occurrences_buffer = NULL;
 
 	while (token != NULL)
