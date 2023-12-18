@@ -19,10 +19,10 @@ int main(void)
 	{
 		/*Checks if interactive mode*/
 		if (interactive)
-			display_prompt();
+			input = display_prompt();
 
 		/*Read user input*/
-		input = read_input();
+		/*input = read_input();*/
 
 		/*Parse the user input*/
 		parse_input(input, &command);

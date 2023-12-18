@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * search_in_path - search for executable in the PATH
+ * path_handling - search for executable in the PATH
  * @command: command structure
  * Return: 1 if found, 0 if not found
  */
-int search_in_path(command_t *command)
+int path_handling(command_t *command)
 {
 	char *path = getenv("PATH");
 	char *path_copy, *token, *full_path;

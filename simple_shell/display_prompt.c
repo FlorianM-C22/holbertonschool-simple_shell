@@ -2,8 +2,9 @@
 
 /**
  * display_prompt - display the shell prompt
+ * Return: input if success
  */
-void display_prompt(void)
+char *display_prompt(void)
 {
 	ssize_t bytes_read;
 	size_t input_size = 0;
@@ -30,4 +31,5 @@ void display_prompt(void)
 			exit(EXIT_FAILURE);
 		}
 	}
+	return (input);
 }
