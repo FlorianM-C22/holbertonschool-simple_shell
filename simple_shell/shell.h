@@ -25,8 +25,8 @@ typedef struct command
 } command_t;
 
 void parse_input(const char *input, command_t *command);
-void builtins(command_t *command);
-void execute_command(command_t *command);
+void builtins(command_t *command, char **envp);
+void execute_command(command_t *command, char **envp);
 int path_handling(command_t *command);
 char *display_prompt(void);
 void free_command(command_t *command);

@@ -3,6 +3,7 @@
 /**
  * path_handling - search for executable in the PATH
  * @command: command structure
+ * @envp: environment pointer
  * Return: 1 if found, 0 if not found
  */
 int path_handling(command_t *command)
@@ -14,15 +15,18 @@ int path_handling(command_t *command)
 	if (path == NULL)
 	{
 		fprintf(stderr, "Error: PATH environment variable not set\n");
-		return (0);
+		return 0;
 	}
+
 	path_len = strlen(path);
 	path_copy = malloc(path_len + 2);
+
 	if (path_copy == NULL)
 	{
 		perror("Error allocating memory for path_copy");
 		exit(EXIT_FAILURE);
 	}
+
 	strcpy(path_copy, path);
 	path_copy[path_len] = ':';
 	path_copy[path_len + 1] = '\0';
@@ -31,36 +35,40 @@ int path_handling(command_t *command)
 
 	while (token != NULL)
 	{
-		if (command->command_name[0] == '/')
+		full_path = malloc(strlen(token) + strlen(command->command_name) + 2);
+
+		if (full_path == NULL)
 		{
-			if (access(command->command_name, X_OK) == 0)
-			{
-				free(path_copy);
-				return (1);
-			}
+			perror("Error allocating memory for full_path");
+			exit(EXIT_FAILURE);
 		}
-		else
+
+		snprintf(full_path, strlen(token) + strlen(command->command_name) + 2, "%s/%s", token, command->command_name);
+
+		printf("Checking path: %s\n", full_path);
+
+		if (access(full_path, X_OK) == 0)
 		{
-			full_path = malloc(strlen(token) + strlen(command->command_name) + 2);
-			if (full_path == NULL)
+			printf("Command found: %s\n", full_path);
+
+			free(command->command_name);
+			command->command_name = strdup(full_path);
+
+			if (command->command_name == NULL)
 			{
-				perror("Error allocating memory for full_path");
+				perror("Error allocating memory for command_name");
 				exit(EXIT_FAILURE);
 			}
-			sprintf(full_path, "%s/%s", token, command->command_name);
 
-			if (access(full_path, X_OK) == 0)
-			{
-				free(command->command_name);
-				command->command_name = strdup(full_path);
-				free(full_path);
-				free(path_copy);
-				return 1;
-			}
 			free(full_path);
+			free(path_copy);
+			return 1;
 		}
+
+		free(full_path);
 		token = strtok(NULL, ":");
 	}
+
 	free(path_copy);
 	return (0);
 }

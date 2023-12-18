@@ -1,13 +1,11 @@
 #include "shell.h"
 
-void builtins(command_t *command);
-
 /**
  * main - check the code
  *
  * Return: 0 SUCCESS
  */
-int main(void)
+int main(int ac, char **av, char **envp)
 {
 	command_t command;
 	char *input;
@@ -15,6 +13,8 @@ int main(void)
 
 	interactive = isatty(STDIN_FILENO);
 
+	(void)ac;
+	(void)av;
 	while (1)
 	{
 		/*Checks if interactive mode*/
@@ -25,7 +25,7 @@ int main(void)
 		parse_input(input, &command);
 
 		/*Execute the command*/
-		execute_command(&command);
+		execute_command(&command, envp);
 
 		/*Free allocated memory*/
 		free(input);
@@ -38,9 +38,10 @@ int main(void)
 /**
  * builtins - handles builtins commands such as 'echo' and 'exit'
  * @command: the command used
+ * @envp: environment pointer
  * Return: void
  */
-void builtins(command_t *command)
+void builtins(command_t *command, char **envp)
 {
 	int i;
 
@@ -68,5 +69,5 @@ void builtins(command_t *command)
 
 	else
 		/*Execute external command*/
-		execute_command(command);
+		execute_command(command, envp);
 }

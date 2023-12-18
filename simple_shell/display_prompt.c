@@ -9,11 +9,13 @@ char *display_prompt(void)
 	ssize_t bytes_read;
 	size_t input_size = 0;
 	char *input = NULL;
-
-	printf("$ ");
+	size_t len;
 
 	/* Reads user input using getline */
 	bytes_read = getline(&input, &input_size, stdin);
+	len = strlen(input);
+	if (len)
+		input[len - 1] = 0;
 
 	if (bytes_read == -1)
 	{
