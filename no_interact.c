@@ -1,5 +1,11 @@
 #include "shell.h"
 
+/**
+ * no_interact - non interactive mod for simple shell
+ * @argc: argument count
+ * @argv: argument value
+ * Return: void
+ */
 void no_interact(int argc, char *argv[])
 {
 	char *command;

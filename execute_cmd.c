@@ -1,5 +1,11 @@
 #include "shell.h"
 
+/**
+ * execute_cmd - command executor
+ *@command: command to execute
+ *@args: arguments
+ * Return: void
+ */
 int execute_cmd(char *command, char *args[])
 {
 	pid_t pid;
@@ -14,6 +20,7 @@ int execute_cmd(char *command, char *args[])
 	else if (pid == 0)
 	{
 		int result = execvp(command, args);
+
 		if (result == -1)
 		{
 			perror("execvp");
@@ -23,6 +30,7 @@ int execute_cmd(char *command, char *args[])
 	else
 	{
 		int status;
+
 		if (waitpid(pid, &status, 0) == -1)
 		{
 			perror("waitpid");

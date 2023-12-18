@@ -1,5 +1,10 @@
 #include "shell.h"
 
+/**
+ * interactive - interactive mod for simple shell
+ *
+ * Return: void
+ */
 void interactive(void)
 {
 	char input[MAX_INPUT_LENGTH];
@@ -12,7 +17,6 @@ void interactive(void)
 		fprintf(stderr, "Error: Not in interactive mode.\n");
 		exit(EXIT_FAILURE);
 	}
-
 	while (1)
 	{
 		printf("$ ");
@@ -22,14 +26,12 @@ void interactive(void)
 			printf("\n");
 			break;
 		}
-
 		input_length = strlen(input);
 
 		if (input_length > 0 && input[input_length - 1] == '\n')
 		{
 			input[input_length - 1] = '\0';
 		}
-
 		if (strcmp(input, "exit") == 0)
 		{
 			break;
@@ -44,7 +46,6 @@ void interactive(void)
 			if (command != NULL)
 			{
 				parse_input(input, command, args);
-
 				execute_cmd(command, args);
 			}
 		}

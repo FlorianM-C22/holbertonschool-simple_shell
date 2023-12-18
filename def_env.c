@@ -1,5 +1,10 @@
 #include "shell.h"
 
+/**
+ * def_env - Defining env
+ *
+ * Return: void
+ */
 void def_env(void)
 {
 	char *env_var = *environ;

@@ -4,8 +4,9 @@
  * _which - Search for the location of file in the current PATH.
  * @filename: The file to search for.
  * @all_occurrences: Flag indicating whether to find all occurrences.
- *                   If 0, return the first occurrence found; otherwise, print all occurrences.
- * Return: If all_occurrences is 0, return the first occurrence found; otherwise, return NULL.
+ * If 0, return the first occurrence found; otherwise, print all occurrences.
+ * Return: If all_occurrences is 0, return the first occurrence found;
+ * otherwise, return NULL.
  */
 char *_which(const char *filename, int all_occurrences)
 {
@@ -15,7 +16,7 @@ char *_which(const char *filename, int all_occurrences)
 	if (path_env == NULL)
 	{
 		fprintf(stderr, "Error: PATH environment variable not found.\n");
-		return NULL;
+		return (NULL);
 	}
 
 	path_copy = strdup(path_env);
@@ -26,6 +27,7 @@ char *_which(const char *filename, int all_occurrences)
 	while (token != NULL)
 	{
 		char path[MAX_PATH_LENGTH];
+
 		snprintf(path, sizeof(path), "%s/%s", token, filename);
 
 		if (access(path, F_OK) == 0)
@@ -49,7 +51,7 @@ char *_which(const char *filename, int all_occurrences)
 				printf("%s\n", path);
 				free(path_copy);
 				free(all_occurrences_buffer);
-				return strdup(path);
+				return (strdup(path));
 			}
 		}
 		token = strtok(NULL, ":");
@@ -58,10 +60,9 @@ char *_which(const char *filename, int all_occurrences)
 	{
 		fprintf(stderr, "Error: %s not found in PATH.\n", filename);
 		free(all_occurrences_buffer);
-		return NULL;
+		return (NULL);
 	}
-
 	fprintf(stderr, "Error: %s not found in PATH.\n", filename);
 	free(path_copy);
-	return NULL;
+	return (NULL);
 }
