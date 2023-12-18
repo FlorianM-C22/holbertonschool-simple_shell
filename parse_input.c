@@ -13,7 +13,7 @@ void parse_input(char *input, char *command, char *args[])
 
 	if (token == NULL)
 	{
-		command = NULL;
+		command[0] = '\0';
 		return;
 	}
 

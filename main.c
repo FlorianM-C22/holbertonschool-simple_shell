@@ -8,10 +8,14 @@
  */
 int main(int argc, char *argv[])
 {
-	if (argc > 1)
+	if (!isatty(STDIN_FILENO))
+	{
 		no_interact(argc, argv);
+	}
 	else
+	{
 		interactive();
+	}
 
 	return (0);
 }
