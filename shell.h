@@ -4,37 +4,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <dirent.h>
+#include <string.h>
+#include <sys/stat.h>
 #include <fcntl.h>
-#include <signal.h>
-#include <stdarg.h>
-#include <stdbool.h>
-
-#define MAX_ARGS 256
+#include <dirent.h>
 
 extern char **environ;
 
-/**
- *struct command - command structure
- *@command_name: name of the command
- *@has_arguments: checks if arguments or not
- *@arguments: array of arguments
- */
-typedef struct command
-{
-	char *command_name;
-	char **arguments;
-	int *has_arguments;
-} command_t;
+#define MAX_INPUT_LENGTH 100
+#define MAX_ARGS 10
+#define MAX_PATH_LENGTH 1024
 
-void free_command(command_t *command);
-char *display_prompt(void);
-char *get_path(const char *command_name);
-void execute_command(const char *full_path, command_t *command);
-void parse_input(const char *input, command_t *command);
-void parse_arguments(const char *input, command_t *command);
+void interactive(void);
+void no_interact(int argc, char *argv[]);
+char *_which(const char *filename, int all_occurrences);
+char *_getenv(const char *name, char **env);
+void parse_input(char *input, char *command, char *args[]);
+void def_env(void);
+int execute_cmd(char *command, char *args[]);
 
 #endif

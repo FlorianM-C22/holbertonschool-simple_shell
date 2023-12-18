@@ -1,62 +1,42 @@
 #include "shell.h"
 
 /**
- * parse_arguments - parses arguments from user input
- * @input: user input
- * @command: command structure
+ * parse_input - Parse user input into command and arguments.
+ * @input: User input string.
+ * @command: Pointer to store the command.
+ * @args: Array to store arguments.
  */
-void parse_arguments(const char *input, command_t *command)
+void parse_input(char *input, char *command, char *args[])
 {
-	char *input_copy = strdup(input);
-	char *token;
-	int i = 0;
+	char *token = strtok(input, " ");
+	int index;
 
-	token = strtok(input_copy, ":");
+	if (token == NULL)
+	{
+		command = NULL;
+		return;
+	}
+
+	strcpy(command, token);
+
+	index = 0;
 
 	while (token != NULL)
 	{
-		command->arguments[i++] = strdup(token);
-		token = strtok(NULL, " \n\t");
+		args[index] = malloc(strlen(token) + 1);
+
+		if (args[index] == NULL)
+		{
+			perror("malloc");
+			exit(EXIT_FAILURE);
+		}
+
+		strcpy(args[index], token);
+
+		token = strtok(NULL, " ");
+
+		index++;
 	}
 
-	command->arguments[i] = NULL;
-
-	free(input_copy);
-}
-
-/**
- * parse_input - parses arguments from user input
- * @input: user input
- * @command: command structure
- */
-void parse_input(const char *input, command_t *command)
-{
-	char *input_copy = strdup(input);
-
-	if (input_copy == NULL)
-	{
-		perror("Error duplicating input");
-		exit(EXIT_FAILURE);
-	}
-
-	command->command_name = strdup(strtok(input_copy, " \n\t"));
-
-	command->arguments = malloc(sizeof(char *) * 1024);
-
-	if (command->arguments == NULL)
-	{
-		perror("Error allocating memory for arguments");
-		exit(EXIT_FAILURE);
-	}
-
-	if (strtok(NULL, " \n\t") != NULL)
-	{
-		parse_arguments(input_copy, command);
-	}
-	else
-	{
-		command->arguments[0] = NULL;
-	}
-
-	free(input_copy);
+	args[index] = NULL;
 }
