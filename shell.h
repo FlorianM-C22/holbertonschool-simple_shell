@@ -13,6 +13,8 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
+#define MAX_ARGS 256
+
 extern char **environ;
 
 /**
