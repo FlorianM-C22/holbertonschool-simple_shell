@@ -10,7 +10,7 @@ char *display_prompt(void)
 	size_t input_size = 0;
 	char *input = NULL;
 
-	printf("$");
+	printf("$ ");
 
 	/* Reads user input using getline */
 	bytes_read = getline(&input, &input_size, stdin);
