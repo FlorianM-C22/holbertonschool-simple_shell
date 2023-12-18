@@ -9,6 +9,12 @@ void execute_command(command_t *command)
 	pid_t pid;
 	int status;
 
+	if (!path_handling(command))
+	{
+		fprintf(stderr, "Command not found: %s\n", command->command_name);
+		exit(EXIT_FAILURE);
+	}
+
 	pid = fork();
 
 	if (pid == -1)
