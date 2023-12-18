@@ -11,7 +11,7 @@ void parse_arguments(const char *input, command_t *command)
 	char *token;
 	int i = 0;
 
-	token = strtok(input_copy, " \n\t");
+	token = strtok(input_copy, ":");
 
 	while (token != NULL)
 	{
