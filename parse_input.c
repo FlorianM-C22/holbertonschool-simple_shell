@@ -9,8 +9,9 @@
 void parse_input(char *input, char *command, char *args[])
 {
 	char *input_copy = strdup(input);
-	int index, i;
+	int index = 0;
 	char *token;
+	int i;
 
 	if (input_copy == NULL)
 	{
@@ -29,29 +30,30 @@ void parse_input(char *input, char *command, char *args[])
 
 	strcpy(command, token);
 
-	index = 0;
-
-	while (token != NULL)
+	while (token != NULL && index < MAX_ARGS - 1)
 	{
-		args[index] = malloc(strlen(token) + 1);
-
-		if (args[index] == NULL)
-		{
-			perror("malloc");
-			exit(EXIT_FAILURE);
-		}
-
-		strcpy(args[index], token);
-
 		token = strtok(NULL, " ");
 
-		index++;
+		if (token != NULL)
+		{
+			args[index] = strdup(token);
+
+			if (args[index] == NULL)
+			{
+				perror("malloc/strdup");
+				exit(EXIT_FAILURE);
+			}
+
+			index++;
+		}
 	}
 
 	args[index] = NULL;
 
+
 	for (i = 0; i < index; i++)
 	{
+		printf("Debug: Argument %d: %s\n", i, args[i]);
 		free(args[i]);
 	}
 

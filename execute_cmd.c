@@ -16,7 +16,7 @@ int execute_cmd(char *command, char *args[])
 	if (pid == -1)
 	{
 		perror("fork");
-		return (-1);
+		return -1;
 	}
 	else if (pid == 0)
 	{
@@ -28,7 +28,11 @@ int execute_cmd(char *command, char *args[])
 			_exit(EXIT_FAILURE);
 		}
 
+		printf("Debug: Before calling search_and_exec for command: %s\n", command);
+
 		result = search_and_exec(command, args, path);
+
+		printf("Debug: After calling search_and_exec, result: %d\n", result);
 
 		if (result == -1)
 			_exit(EXIT_FAILURE);
@@ -42,9 +46,9 @@ int execute_cmd(char *command, char *args[])
 			return -1;
 		}
 	}
-	return (0);
-}
 
+	return 0;
+}
 
 /**
  * search_and_exec - search for the executable in directories listed in PATH
@@ -64,7 +68,7 @@ int search_and_exec(char *command, char *args[], char *path)
 			return 0;
 
 		perror("execve");
-		return (-1);
+		return -1;
 	}
 
 	path_copy = strdup(path);
@@ -72,7 +76,7 @@ int search_and_exec(char *command, char *args[], char *path)
 	if (path_copy == NULL)
 	{
 		perror("strdup");
-		return (-1);
+		return -1;
 	}
 
 	token = strtok(path_copy, ":");
@@ -91,6 +95,8 @@ int search_and_exec(char *command, char *args[], char *path)
 		strcat(full_path, "/");
 		strcat(full_path, command);
 
+		printf("Debug: Trying to execute %s\n", full_path);
+
 		if (execve(full_path, args, NULL) != -1)
 		{
 			result = 0;
@@ -106,7 +112,8 @@ int search_and_exec(char *command, char *args[], char *path)
 
 	if (result == -1)
 	{
-		fprintf(stderr, "No such file or directory\n");
+		fprintf(stderr, "Debug: No such file or directory\n");
 	}
+
 	return (result);
 }
