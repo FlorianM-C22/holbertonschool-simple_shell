@@ -11,14 +11,12 @@ void parse_input(char *input, char *command, char *args[])
 	char *input_copy = strdup(input);
 	int index = 0;
 	char *token;
-	int i;
 
 	if (input_copy == NULL)
 	{
 		perror("strdup");
 		exit(EXIT_FAILURE);
 	}
-
 	token = strtok(input_copy, " ");
 
 	if (token == NULL)
@@ -27,7 +25,6 @@ void parse_input(char *input, char *command, char *args[])
 		free(input_copy);
 		return;
 	}
-
 	strcpy(command, token);
 
 	while (token != NULL && index < MAX_ARGS - 1)
@@ -47,15 +44,7 @@ void parse_input(char *input, char *command, char *args[])
 			index++;
 		}
 	}
-
 	args[index] = NULL;
-
-
-	for (i = 0; i < index; i++)
-	{
-		printf("Debug: Argument %d: %s\n", i, args[i]);
-		free(args[i]);
-	}
 
 	free(input_copy);
 }

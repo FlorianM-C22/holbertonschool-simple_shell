@@ -2,10 +2,10 @@
 
 /**
  * interactive - interactive mod for simple shell
- *
+ * @data: data struct
  * Return: void
  */
-void interactive(void)
+void interactive(data_t *data)
 {
 	char *input = NULL;
 	size_t input_size = 0;
@@ -23,7 +23,7 @@ void interactive(void)
 		printf("$ ");
 
 		bytes_read = getline(&input, &input_size, stdin);
-
+		data->command_count++;
 		if (bytes_read == -1)
 		{
 			printf("\n");
@@ -41,7 +41,7 @@ void interactive(void)
 			if (command != NULL)
 			{
 				parse_input(input, command, args);
-				execute_cmd(command, args);
+				execute_cmd(command, args, data);
 			}
 		}
 	}

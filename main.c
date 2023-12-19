@@ -8,16 +8,18 @@
  */
 int main(int argc, char *argv[])
 {
-	(void)argc;
-	(void)argv;
+	data_t data;
 
+	data.argv = argv;
+	data.command_count = 0;
+	data.exit_status = 0;
 	if (!isatty(STDIN_FILENO))
 	{
-		no_interact(argc, argv);
+		no_interact(argc, argv, &data);
 	}
 	else
 	{
-		interactive();
+		interactive(&data);
 	}
 
 	return (0);
