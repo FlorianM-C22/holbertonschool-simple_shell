@@ -28,8 +28,6 @@ int execute_cmd(char *command, char *args[])
 			_exit(EXIT_FAILURE);
 		}
 
-		printf("Debug: Before calling search_and_exec for command: %s\n", command);
-
 		result = search_and_exec(command, args, path);
 
 		printf("Debug: After calling search_and_exec, result: %d\n", result);
@@ -94,8 +92,6 @@ int search_and_exec(char *command, char *args[], char *path)
 		strcpy(full_path, token);
 		strcat(full_path, "/");
 		strcat(full_path, command);
-
-		printf("Debug: Trying to execute %s\n", full_path);
 
 		if (execve(full_path, args, NULL) != -1)
 		{
