@@ -106,7 +106,7 @@ int search_and_exec(char *command, char *args[], char *path)
 
 	if (result == -1)
 	{
-		fprintf(stderr, "Command not found: %s\n", command);
+		fprintf(stderr, "%s: not found\n", command);
 	}
 	return (result);
 }
