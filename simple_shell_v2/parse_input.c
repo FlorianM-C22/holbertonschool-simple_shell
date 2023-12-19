@@ -1,39 +1,41 @@
 #include "shell.h"
 
-void parse_input(char *input, char *command, char *args[], size_t args_size)
+/**
+ * parse_input - Parse user input into command and arguments.
+ * @input: User input string.
+ * @command: Pointer to store the command.
+ * @args: Array to store arguments.
+ */
+void parse_input(char *input, char *command, char *args[])
 {
 	char *token = strtok(input, " ");
-	size_t index = 0;
+	int index;
 
-	if (token != NULL)
-	{
-		strncpy(command, token, args_size - 1);
-		command[args_size - 1] = '\0';
-		index++;
-	}
-	else
+	if (token == NULL)
 	{
 		command[0] = '\0';
 		return;
 	}
 
-	while (token != NULL && index < args_size - 1)
+	strcpy(command, token);
+
+	index = 0;
+
+	while (token != NULL)
 	{
+		args[index] = malloc(strlen(token) + 1);
+
+		if (args[index] == NULL)
+		{
+			perror("malloc");
+			exit(EXIT_FAILURE);
+		}
+
+		strcpy(args[index], token);
+
 		token = strtok(NULL, " ");
 
-		if (token != NULL)
-		{
-			args[index] = malloc(strlen(token) + 1);
-
-			if (args[index] == NULL)
-			{
-				perror("malloc");
-				exit(EXIT_FAILURE);
-			}
-
-			strcpy(args[index], token);
-			index++;
-		}
+		index++;
 	}
 
 	args[index] = NULL;
