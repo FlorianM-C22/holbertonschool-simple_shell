@@ -62,6 +62,15 @@ int search_and_exec(char *command, char *args[], char *path)
 	char *token, *path_copy, *full_path;
 	int result = -1;
 
+	if (command[0] == '/')
+	{
+		if (execve(command, args, NULL) != -1)
+			return 0;
+
+		perror("execve");
+		return -1;
+	}
+
 	path_copy = strdup(path);
 
 	if (path_copy == NULL)
