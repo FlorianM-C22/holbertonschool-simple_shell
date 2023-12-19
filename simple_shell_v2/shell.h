@@ -24,5 +24,6 @@ char *_getenv(const char *name, char **env);
 void parse_input(char *input, char *command, char *args[]);
 void def_env(void);
 int execute_cmd(char *command, char *args[]);
+int search_and_exec(char *command, char *args[], char *path);
 
 #endif
