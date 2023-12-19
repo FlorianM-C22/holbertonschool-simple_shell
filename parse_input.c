@@ -40,11 +40,9 @@ void parse_input(char *input, char *command, char *args[])
 				perror("malloc/strdup");
 				exit(EXIT_FAILURE);
 			}
-
 			index++;
 		}
 	}
 	args[index] = NULL;
-
 	free(input_copy);
 }

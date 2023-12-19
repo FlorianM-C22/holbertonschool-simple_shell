@@ -81,7 +81,6 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 			return (-1);
 		}
 	}
-
 	path_copy = strdup(path);
 
 	if (path_copy == NULL)
@@ -102,7 +101,6 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 			free(path_copy);
 			return (-1);
 		}
-
 		strcpy(full_path, token);
 		strcat(full_path, "/");
 		strcat(full_path, command);
@@ -115,7 +113,6 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 				break;
 			}
 		}
-
 
 		free(full_path);
 		full_path = NULL;
