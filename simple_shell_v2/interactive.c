@@ -3,7 +3,7 @@
 void interactive(void)
 {
 	char input[MAX_INPUT_LENGTH];
-	char *command;
+	char command[MAX_COMMAND_LENGTH];
 	char *args[MAX_ARGS];
 	size_t input_length;
 
@@ -40,13 +40,9 @@ void interactive(void)
 		}
 		else
 		{
-			command = strtok(input, " ");
-			if (command != NULL)
-			{
-				parse_input(input, command, args);
+			parse_input(input, command, args, sizeof(args) / sizeof(args[0]));
 
-				execute_cmd(command, args);
-			}
+			execute_cmd(command, args);
 		}
 	}
 }

@@ -16,13 +16,15 @@ extern char **environ;
 #define MAX_INPUT_LENGTH 100
 #define MAX_ARGS 10
 #define MAX_PATH_LENGTH 1024
+#define MAX_COMMAND_LENGTH 1024
 
 void interactive(void);
 void no_interact(int argc, char *argv[]);
 char *_which(const char *filename, int all_occurrences);
 char *_getenv(const char *name, char **env);
-void parse_input(char *input, char *command, char *args[]);
+void parse_input(char *input, char *command, char *args[], size_t args_size);
 void def_env(void);
 int execute_cmd(char *command, char *args[]);
+int search_and_exec(char *command, char *args[], char *path);
 
 #endif
