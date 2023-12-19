@@ -31,10 +31,7 @@ int execute_cmd(char *command, char *args[])
 		result = search_and_exec(command, args, path);
 
 		if (result == -1)
-		{
-			perror("search_and_exec");
 			_exit(EXIT_FAILURE);
-		}
 	}
 	else
 	{
