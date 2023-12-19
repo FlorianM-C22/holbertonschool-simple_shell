@@ -19,7 +19,7 @@ extern char **environ;
 #define MAX_PATH_LENGTH 1024
 
 void interactive(void);
-void no_interact(int __attribute__((unused)) argc, char __attribute__((unused)) *argv[]);
+void no_interact(int argc, char *argv[]);
 char *_which(const char *filename, int all_occurrences);
 char *_getenv(const char *name, char **env);
 void parse_input(char *input, char *command, char *args[]);

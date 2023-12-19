@@ -41,9 +41,7 @@ int execute_cmd(char *command, char *args[])
 			perror("waitpid");
 			return -1;
 		}
-
 	}
-
 	return (0);
 }
 
@@ -104,13 +102,11 @@ int search_and_exec(char *command, char *args[], char *path)
 
 		token = strtok(NULL, ":");
 	}
-
 	free(path_copy);
 
 	if (result == -1)
 	{
 		fprintf(stderr, "Command not found: %s\n", command);
 	}
-
 	return (result);
 }

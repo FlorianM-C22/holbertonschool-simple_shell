@@ -6,10 +6,13 @@
  * @argv: argument value
  * Return: void
  */
-void no_interact(int __attribute__((unused)) argc, char __attribute__((unused)) *argv[])
+void no_interact(int argc, char *argv[])
 {
 	char command[MAX_INPUT_LENGTH];
 	char *args[MAX_ARGS];
+
+	(void)argc;
+	(void)argv;
 
 	if (fgets(command, MAX_INPUT_LENGTH, stdin) == NULL)
 	{

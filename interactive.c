@@ -18,7 +18,6 @@ void interactive(void)
 		fprintf(stderr, "Error: Not in interactive mode.\n");
 		exit(EXIT_FAILURE);
 	}
-
 	while (1)
 	{
 		printf("$ ");
@@ -30,16 +29,12 @@ void interactive(void)
 			printf("\n");
 			break;
 		}
-
 		if (bytes_read > 0 && input[bytes_read - 1] == '\n')
 			input[bytes_read - 1] = '\0';
-
 		if (strcmp(input, "exit") == 0)
 			break;
-
 		else if (strcmp(input, "env") == 0)
 			def_env();
-
 		else
 		{
 			command = strtok(input, " ");
@@ -50,6 +45,5 @@ void interactive(void)
 			}
 		}
 	}
-
 	free(input);
 }

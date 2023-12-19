@@ -6,8 +6,11 @@
  *@argv: argument value
  * Return: 0 SUCCESS
  */
-int main(int __attribute__((unused)) argc, char __attribute__((unused)) *argv[])
+int main(int argc, char *argv[])
 {
+	(void)argc;
+	(void)argv;
+
 	if (!isatty(STDIN_FILENO))
 	{
 		no_interact(argc, argv);
