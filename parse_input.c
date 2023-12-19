@@ -9,7 +9,7 @@
 void parse_input(char *input, char *command, char *args[])
 {
 	char *token = strtok(input, " ");
-	int index;
+	int index, i;
 
 	if (token == NULL)
 	{
@@ -39,4 +39,9 @@ void parse_input(char *input, char *command, char *args[])
 	}
 
 	args[index] = NULL;
+
+	for (i = 0; args[i] != NULL; i++)
+	{
+		free(args[i]);
+	}
 }

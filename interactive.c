@@ -7,29 +7,32 @@
  */
 void interactive(void)
 {
-	char input[MAX_INPUT_LENGTH];
+	char *input = NULL;
+	size_t input_size = 0;
+	ssize_t bytes_read;
 	char *command;
 	char *args[MAX_ARGS];
-	size_t input_length;
 
 	if (!isatty(STDIN_FILENO))
 	{
 		fprintf(stderr, "Error: Not in interactive mode.\n");
 		exit(EXIT_FAILURE);
 	}
+
 	while (1)
 	{
 		printf("$ ");
 
-		if (fgets(input, MAX_INPUT_LENGTH, stdin) == NULL)
+		bytes_read = getline(&input, &input_size, stdin);
+
+		if (bytes_read == -1)
 		{
 			printf("\n");
 			break;
 		}
-		input_length = strlen(input);
 
-		if (input_length > 0 && input[input_length - 1] == '\n')
-			input[input_length - 1] = '\0';
+		if (bytes_read > 0 && input[bytes_read - 1] == '\n')
+			input[bytes_read - 1] = '\0';
 
 		if (strcmp(input, "exit") == 0)
 			break;
@@ -47,4 +50,6 @@ void interactive(void)
 			}
 		}
 	}
+
+	free(input);
 }
