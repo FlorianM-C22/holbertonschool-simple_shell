@@ -11,6 +11,7 @@ void no_interact(int argc, char *argv[], data_t *data)
 {
 	char command[MAX_INPUT_LENGTH];
 	char *args[MAX_ARGS];
+	int i;
 
 	(void)argc;
 	(void)argv;
@@ -27,4 +28,9 @@ void no_interact(int argc, char *argv[], data_t *data)
 	data->command_count++;
 	parse_input(command, command, args);
 	execute_cmd(command, args, data);
+
+	for (i = 0; args[i] != NULL; i++)
+	{
+		free(args[i]);
+	}
 }
