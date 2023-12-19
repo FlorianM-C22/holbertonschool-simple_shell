@@ -106,7 +106,7 @@ int search_and_exec(char *command, char *args[], char *path)
 
 	if (result == -1)
 	{
-		fprintf(stderr, "%s: not found\n", command);
+		fprintf(stderr, "No such file or directory\n");
 	}
 	return (result);
 }
