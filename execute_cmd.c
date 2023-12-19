@@ -16,7 +16,7 @@ int execute_cmd(char *command, char *args[])
 	if (pid == -1)
 	{
 		perror("fork");
-		return -1;
+		return (-1);
 	}
 	else if (pid == 0)
 	{
@@ -36,16 +36,17 @@ int execute_cmd(char *command, char *args[])
 	else
 	{
 		int status;
-
 		if (waitpid(pid, &status, 0) == -1)
 		{
 			perror("waitpid");
 			return -1;
 		}
+
 	}
 
 	return (0);
 }
+
 
 /**
  * search_and_exec - search for the executable in directories listed in PATH
@@ -65,7 +66,7 @@ int search_and_exec(char *command, char *args[], char *path)
 			return 0;
 
 		perror("execve");
-		return -1;
+		return (-1);
 	}
 
 	path_copy = strdup(path);
@@ -73,7 +74,7 @@ int search_and_exec(char *command, char *args[], char *path)
 	if (path_copy == NULL)
 	{
 		perror("strdup");
-		return -1;
+		return (-1);
 	}
 
 	token = strtok(path_copy, ":");
@@ -85,7 +86,7 @@ int search_and_exec(char *command, char *args[], char *path)
 		{
 			perror("malloc");
 			free(path_copy);
-			return -1;
+			return (-1);
 		}
 
 		strcpy(full_path, token);

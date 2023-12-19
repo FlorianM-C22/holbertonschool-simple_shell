@@ -8,12 +8,22 @@
  */
 void parse_input(char *input, char *command, char *args[])
 {
-	char *token = strtok(input, " ");
+	char *input_copy = strdup(input);
 	int index, i;
+	char *token;
+
+	if (input_copy == NULL)
+	{
+		perror("strdup");
+		exit(EXIT_FAILURE);
+	}
+
+	token = strtok(input_copy, " ");
 
 	if (token == NULL)
 	{
 		command[0] = '\0';
+		free(input_copy);
 		return;
 	}
 
@@ -40,8 +50,10 @@ void parse_input(char *input, char *command, char *args[])
 
 	args[index] = NULL;
 
-	for (i = 0; args[i] != NULL; i++)
+	for (i = 0; i < index; i++)
 	{
 		free(args[i]);
 	}
+
+	free(input_copy);
 }

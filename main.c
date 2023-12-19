@@ -6,7 +6,7 @@
  *@argv: argument value
  * Return: 0 SUCCESS
  */
-int main(int argc, char *argv[])
+int main(int __attribute__((unused)) argc, char __attribute__((unused)) *argv[])
 {
 	if (!isatty(STDIN_FILENO))
 	{

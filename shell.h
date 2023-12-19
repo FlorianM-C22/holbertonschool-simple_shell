@@ -10,15 +10,16 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <dirent.h>
+#include <errno.h>
 
 extern char **environ;
 
-#define MAX_INPUT_LENGTH 100
-#define MAX_ARGS 10
+#define MAX_INPUT_LENGTH 1024
+#define MAX_ARGS 64
 #define MAX_PATH_LENGTH 1024
 
 void interactive(void);
-void no_interact(int argc, char *argv[]);
+void no_interact(int __attribute__((unused)) argc, char __attribute__((unused)) *argv[]);
 char *_which(const char *filename, int all_occurrences);
 char *_getenv(const char *name, char **env);
 void parse_input(char *input, char *command, char *args[]);
