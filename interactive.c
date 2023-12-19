@@ -13,11 +13,6 @@ void interactive(data_t *data)
 	char *command;
 	char *args[MAX_ARGS];
 
-	if (!isatty(STDIN_FILENO))
-	{
-		fprintf(stderr, "Error: Not in interactive mode.\n");
-		exit(EXIT_FAILURE);
-	}
 	while (1)
 	{
 		printf("$ ");
