@@ -40,6 +40,7 @@ int execute_cmd(char *command, char *args[], data_t *data)
 			perror("waitpid");
 			return -1;
 		}
+
 		data->exit_status = status / 256;
 
 		if (WIFEXITED(status))

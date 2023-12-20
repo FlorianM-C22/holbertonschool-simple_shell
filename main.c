@@ -22,5 +22,5 @@ int main(int argc, char *argv[])
 		interactive(&data);
 	}
 
-	return (0);
+	return (data.exit_status);
 }
