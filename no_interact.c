@@ -15,7 +15,7 @@ void no_interact(int argc, char *argv[], data_t *data)
 
 	(void)argc;
 	(void)argv;
-
+	/*No command = ERROR*/
 	if (fgets(command, MAX_INPUT_LENGTH, stdin) == NULL)
 	{
 		fprintf(stderr, "Error reading command from stdin\n");
@@ -24,13 +24,11 @@ void no_interact(int argc, char *argv[], data_t *data)
 
 	command[strcspn(command, "\n")] = '\0';
 
-	args[0] = NULL;
-	data->command_count++;
-	parse_input(command, command, args);
-	execute_cmd(command, args, data);
+	args[0] = NULL; /*Setting the args[0] array to NULL*/
+	data->command_count++; /*Counting commands written for the shell*/
+	parse_input(command, command, args); /*Parse the input in tokens*/
+	execute_cmd(command, args, data); /*Execute the command*/
 
 	for (i = 0; args[i] != NULL; i++)
-	{
-		free(args[i]);
-	}
+		free(args[i]); /*Freeing memory of any data stored in the array*/
 }

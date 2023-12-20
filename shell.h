@@ -10,6 +10,12 @@
 
 extern char **environ;
 
+#define EXIT_SUCCESS 0
+#define EXIT_GENERAL_ERROR 1
+#define EXIT_BUILTIN_ERROR 2
+#define EXIT_NOT_EXECUTABLE 126
+#define EXIT_COMMAND_NOT_FOUND 127
+
 #define MAX_INPUT_LENGTH 1024
 #define MAX_ARGS 64
 #define MAX_PATH_LENGTH 1024

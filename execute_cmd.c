@@ -8,44 +8,44 @@
  */
 int execute_cmd(char *command, char *args[], data_t *data)
 {
-	pid_t pid;
-	int result, status, i;
+	pid_t pid; /*Declaring a Parent id*/
+	int result, status, i; /*Index values*/
 
 	pid = fork();
-
+	data->exit_status = 0; /*Setting exit_status to 0*/
 	if (pid == -1)
-	{
+	{	/*If forking failed == ERROR*/
 		perror("fork");
 		return (-1);
 	}
 	else if (pid == 0)
 	{
-		char *path = _getenv("PATH", environ);
+		char *path = _getenv("PATH", environ); /*Getting PATH data in a string*/
 
 		if (path == NULL)
-		{
+		{	/*If PATH not found = ERROR*/
 			fprintf(stderr, "PATH variable not found\n");
 			_exit(EXIT_FAILURE);
 		}
+		/*Search the command and execute it*/
 		result = search_and_exec(command, args, path, data);
-
+		/*If command not executed = ERROR*/
 		if (result == -1)
 			_exit(EXIT_FAILURE);
+		data->exit_status = result;
 	}
 	else
-	{
+	{	/*Parent process*/
 		if (waitpid(pid, &status, 0) == -1)
 		{
-			data->exit_status = status / 256;
 			perror("waitpid");
-			return -1;
+			return (-1);
 		}
-
-		data->exit_status = status / 256;
-
 		if (WIFEXITED(status))
 		{
 			result = WEXITSTATUS(status);
+			if (data->exit_status == 0)
+				data->exit_status = status / 256;
 		}
 		else
 		{
@@ -75,11 +75,11 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 	if (stat(command, &file_stat) == 0 && S_ISREG(file_stat.st_mode) && (file_stat.st_mode & S_IXUSR))
 	{
 		if (execve(command, args, environ) != -1)
-			return (0);
+			return (EXIT_SUCCESS);
 		else
 		{
 			perror("execve");
-			return (-1);
+			return (EXIT_GENERAL_ERROR);
 		}
 	}
 	path_copy = strdup(path);
@@ -87,7 +87,7 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 	if (path_copy == NULL)
 	{
 		perror("strdup");
-		return -1;
+		return EXIT_GENERAL_ERROR;
 	}
 
 	token = strtok(path_copy, ":");
@@ -100,7 +100,7 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 		{
 			perror("malloc");
 			free(path_copy);
-			return (-1);
+			return (EXIT_GENERAL_ERROR);
 		}
 		strcpy(full_path, token);
 		strcat(full_path, "/");
@@ -110,8 +110,11 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 		{
 			if (execve(full_path, args, environ) != -1)
 			{
-				result = 0;
+				result = EXIT_SUCCESS;
 				break;
+			}
+			else {
+				result = EXIT_BUILTIN_ERROR;
 			}
 		}
 
@@ -120,11 +123,14 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 		token = strtok(NULL, ":");
 	}
 	if (full_path != NULL)
+	{
+
 		free(full_path);
+	}
 	else
 	{
 		fprintf(stderr, "%s: %d: %s: not found\n", data->argv[0], data->command_count, command);
-		data->exit_status = 127;
+		result = 127;
 	}
 	free(path_copy);
 	return (result);
