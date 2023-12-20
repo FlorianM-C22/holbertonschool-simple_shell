@@ -33,6 +33,7 @@ int execute_cmd(char *command, char *args[], data_t *data)
 		if (result == -1)
 			_exit(EXIT_FAILURE);
 		data->exit_status = result;
+		_exit(result); /*Exit with the result*/
 	}
 	else
 	{	/*Parent process*/

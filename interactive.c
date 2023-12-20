@@ -19,9 +19,15 @@ void interactive(data_t *data)
 
 		bytes_read = getline(&input, &input_size, stdin);
 		data->command_count++;
-		if (bytes_read == -1)
+		/* Error or End of file */
+		if (feof(stdin))
 		{
 			printf("\n");
+			free(input);  /*Free memory allocated by getline*/
+			exit(data->exit_status);
+		}
+		if (bytes_read == -1)
+		{
 			break;
 		}
 		if (bytes_read > 0 && input[bytes_read - 1] == '\n')
