@@ -25,15 +25,15 @@ int execute_cmd(char *command, char *args[], data_t *data)
 		if (path == NULL)
 		{	/*If PATH not found = ERROR*/
 			fprintf(stderr, "PATH variable not found\n");
-			_exit(EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		}
 		/*Search the command and execute it*/
 		result = search_and_exec(command, args, path, data);
 		/*If command not executed = ERROR*/
 		if (result == -1)
-			_exit(EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		data->exit_status = result;
-		_exit(result); /*Exit with the result*/
+		exit(result); /*Exit with the result*/
 	}
 	else
 	{	/*Parent process*/
@@ -73,8 +73,14 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 	int result = -1;
 	struct stat file_stat;
 
-	if (stat(command, &file_stat) == 0 && S_ISREG(file_stat.st_mode) && (file_stat.st_mode & S_IXUSR))
+	if (stat(command, &file_stat) == 0)
 	{
+		if (!S_ISREG(file_stat.st_mode) || !(file_stat.st_mode & S_IXUSR))
+		{
+			fprintf(stderr, "%s: %d: %s: Permission denied\n", data->argv[0], data->command_count, command);
+			data->exit_status = 126;
+			return (result);
+		}
 		if (execve(command, args, environ) != -1)
 			return (EXIT_SUCCESS);
 		else
@@ -107,8 +113,14 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 		strcat(full_path, "/");
 		strcat(full_path, command);
 
-		if (stat(full_path, &file_stat) == 0 && S_ISREG(file_stat.st_mode) && (file_stat.st_mode & S_IXUSR))
+		if (stat(full_path, &file_stat) == 0)
 		{
+			if (!S_ISREG(file_stat.st_mode) || !(file_stat.st_mode & S_IXUSR))
+			{
+				fprintf(stderr, "%s: %d: %s: Permission denied\n", data->argv[0], data->command_count, command);
+				result = 126;
+				break;
+			}
 			if (execve(full_path, args, environ) != -1)
 			{
 				result = EXIT_SUCCESS;
