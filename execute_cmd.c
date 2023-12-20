@@ -9,8 +9,9 @@
 int execute_cmd(char *command, char *args[], data_t *data)
 {
 	pid_t pid; /*Declaring a Parent id*/
-	int result, status, i; /*Index values*/
-
+	int result, status; /*Index values*/
+	int i;
+	printf("OA\n");
 	pid = fork();
 	data->exit_status = 0; /*Setting exit_status to 0*/
 	if (pid == -1)
@@ -34,7 +35,13 @@ int execute_cmd(char *command, char *args[], data_t *data)
 		if (result == -1)
 			exit(EXIT_FAILURE);
 		data->exit_status = result;
-		exit(result); /*Exit with the result*/
+for (i = 0; args[i]; i++)
+{
+	free(args[i]);
+	args[i] = NULL;
+}
+	printf("OF\n");
+		_exit(result); /*Exit with the result*/
 	}
 	else
 	{	/*Parent process*/
@@ -43,6 +50,7 @@ int execute_cmd(char *command, char *args[], data_t *data)
 			perror("waitpid");
 			return (-1);
 		}
+	printf("OB\n");
 		if (WIFEXITED(status))
 		{
 			result = WEXITSTATUS(status);
@@ -55,9 +63,7 @@ int execute_cmd(char *command, char *args[], data_t *data)
 			result = -1;
 		}
 	}
-	for (i = 0; args[i] != NULL; i++)
-		free(args[i]);
-
+	printf("OC\n");
 	return (result);
 }
 

@@ -9,7 +9,7 @@
 void parse_input(char *input, char *command, char *args[])
 {
 	char *input_copy = strdup(input);
-	int index = 0;
+	int index = 1;
 	char *token;
 
 	if (input_copy == NULL)
@@ -26,7 +26,13 @@ void parse_input(char *input, char *command, char *args[])
 		return;
 	}
 	strcpy(command, token);
-
+	args[0] = strdup(token);
+	printf("%p\n", args[0]);
+	if (args[0] == NULL)
+	{
+		perror("malloc/strdup");
+		exit(EXIT_FAILURE);
+	}
 	while (token != NULL && index < MAX_ARGS - 1)
 	{
 		token = strtok(NULL, " ");

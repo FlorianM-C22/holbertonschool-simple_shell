@@ -21,5 +21,6 @@ int main(int argc, char *argv[])
 	{
 		interactive(&data);
 	}
+	while (1)
 	return (data.exit_status);
 }
