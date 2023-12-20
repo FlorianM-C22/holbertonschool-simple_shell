@@ -10,11 +10,13 @@ The goal was to reproduce a Bourne Shell terminal (sh) in C with a limited numbe
 To run this program you need to :\
 \
 **Clone this repository**\
-``git clone https://github.com/FlorianM-C22/holbertonschool-simple_shell``
+\
+``git clone https://github.com/FlorianM-C22/holbertonschool-simple_shell``\
 \
 **Compile it with the following arguments**\
-``gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh``
 \
+``gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh``
+
 ### How to use
 Open a terminal and execute the program :
 ``./hsh``\
