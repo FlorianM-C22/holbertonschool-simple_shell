@@ -1,8 +1,8 @@
 
-# Simple Shell
-###[Holberton School](https://www.holbertonschool.fr/) - Laval #C22
+# Simple Shell - a [Holberton School](https://www.holbertonschool.fr/) - Laval #C22
 
 <img src="/img/header.png">
+
 ### Introduction
 The goal was to reproduce a Bourne Shell terminal (sh) in C with a limited number of standard library functions and system calls.
 
