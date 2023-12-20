@@ -30,6 +30,7 @@ int execute_cmd(char *command, char *args[], data_t *data)
 		/*Search the command and execute it*/
 		result = search_and_exec(command, args, path, data);
 		/*If command not executed = ERROR*/
+		free(path);
 		if (result == -1)
 			exit(EXIT_FAILURE);
 		data->exit_status = result;

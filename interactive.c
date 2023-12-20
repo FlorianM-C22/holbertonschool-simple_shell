@@ -29,7 +29,11 @@ void interactive(data_t *data)
 		if (bytes_read > 0 && input[bytes_read - 1] == '\n')
 			input[bytes_read - 1] = '\0';
 		if (strcmp(input, "exit") == 0)
+		{
+			free(input);
+			input = NULL;
 			break;
+		}
 		else if (strcmp(input, "env") == 0)
 			def_env();
 		else
@@ -41,6 +45,12 @@ void interactive(data_t *data)
 				execute_cmd(command, args, data);
 			}
 		}
+		if (input != NULL)
+		{
+			free(input);
+			input = NULL;
+		}
 	}
-	free(input);
+	if (input != NULL)
+		free(input);
 }
