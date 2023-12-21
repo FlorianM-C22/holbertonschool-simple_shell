@@ -109,14 +109,14 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 	int result = -1;
 	int status = 0;
 	char *full_command = NULL;
-
+	/*Getting full command with get_command*/
 	full_command = get_command(path, command);
 	if (full_command == NULL)
 	{
 		fprintf(stderr, "%s: %d: %s: not found\n", data->argv[0],
 				data->command_count, command);
 		return (127);
-	}
+	} /*If command exists, call a fork and execute the command with args*/
 	else if (!fork() && execve(full_command, args, environ) == -1)
 	{
 		fprintf(stderr, "%s: %d: %s: not found\n", data->argv[0],

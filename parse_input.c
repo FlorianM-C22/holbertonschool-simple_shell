@@ -18,7 +18,6 @@ void parse_input(char *input, char *command, char *args[])
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(input_copy, " ");
-
 	if (token == NULL)
 	{
 		command[0] = '\0';
@@ -35,7 +34,6 @@ void parse_input(char *input, char *command, char *args[])
 	while (token != NULL && index < MAX_ARGS - 1)
 	{
 		token = strtok(NULL, " ");
-
 		if (token != NULL)
 		{
 			args[index] = strdup(token);
