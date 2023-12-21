@@ -42,26 +42,20 @@ void interactive(data_t *data)
 			command = strtok(input, " ");
 			if (command != NULL)
 			{
-				printf("A\n");
 				parse_input(input, command, args);
-				printf("B\n");
 				execute_cmd(command, args, data);
-				printf("C\n");
 				for (i = 0; args[i] != NULL; i++)
 				{
 					free(args[i]);
 					args[i] = NULL;
 				}
-				printf("D\n");
 			}
 		}
-				printf("E\n");
 		if (input != NULL)
 		{
 			free(input);
 			input = NULL;
 		}
-				printf("F\n");
 
 	}
 	if (input != NULL)
