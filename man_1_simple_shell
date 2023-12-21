@@ -1,10 +1,103 @@
-.\"Modified from man(1) of FreeBSD, the NetBSD mdoc.template, and mdoc.samples.
-.\"See Also:
-.\"man mdoc.samples for a complete listing of options
-.\"man mdoc for the short list of editing options
-.\"/usr/share/misc/mdoc.template
-.Dd 8/4/10               \" DATE
-.Dt Untitled 1      \" Program name and manual section number
-.Os Darwin
-.Sh NAME                 \" Section Header - required - don't modify
-.Nm Simple Shell,
+.TH hsh 1 "21 December 2023" "0.20" "HSH man page"
+.SH NAME
+.B hsh
+- Simple Shell - A Holberton School C Project
+.SH SYNOPSIS
+.B hsh
+[command] [options] [FILE]
+.SH COPYRIGHT
+.B hsh
+is Copyright (C) Florian Meignan - Holberton School Laval #C22
+.SH DESCRIPTION
+.B hsh
+(Simple Shell) reproduce a Bourne Shell terminal (sh) in C with a limited number of standard library functions and system calls.
+.B Overview
+
+The simple shell is a simplified iteration of a command-line interpreter, similar to
+.B bash
+or
+.B dash.
+.I FORMAT [ARGUMENT]...
+.SH OPTIONS
+.B hsh
+operates in both
+.I interactive
+and
+.I non-interactive
+ mode. The user may initiate
+.B hsh
+and begin working or initiate
+.B hsh
+using commands meant to be run by the program.
+.SH ARGUMENTS
+The first argument, argument 0, is understood to be the command to be run by
+.B hsh
+and arguments following as modifiers or options.
+.SH INVOCATION
+.B hsh
+may be invoked with the same functionality in
+.I interactive
+or
+.I non-interactive
+mode.  The user may quit the program by typing "exit" or "Ctrl + D" on the command line.
+When the program quits or a command has been executed,
+.B hsh
+returns with a new prompt: "$ "
+
+.B Example
+.IP
+
+$ ./hsh
+
+$ pwd
+
+username@your-device:~$
+
+$
+
+$ /bin/pwd
+
+username@your-device:~$
+$
+
+.SH RESERVED WORDS
+.B exit:
+quits the program, exits the shell.
+
+.B env:
+prints the environment variables
+
+.SH HISTORY
+The
+.B history
+built-in displays the history list, one command per line, preceded with line numbers, starting with 0. On exit, the entire history is written to a file named
+.I simple_shell_history
+in the
+.I $HOME
+directory.
+.SH SHELL BUILTIN COMMANDS
+The commands
+.B exit
+,
+.B env
+,
+.B help
+, and
+.B echo
+are handled automatically by
+.B hsh
+
+.SH SEE ALSO
+.I sh(1)
+,
+.I bash(1)
+,
+.I _printf(3)
+
+.SH BUGS
+No known bugs. Please report
+.B hsh
+bugs to https://github.com/FlorianM-C22/simple_shell/issues
+.SH AUTHOR
+Florian Meignan - https://github.com/FlorianM-C22
+Date: 21 December 2023
