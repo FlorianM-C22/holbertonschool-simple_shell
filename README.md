@@ -116,7 +116,7 @@ username@your-device:~$
     write (man 2 write)
 ```
 ### Memory checks
-Using [Valgrind](https://valgrind.org/)
+Using [Valgrind](https://valgrind.org/)\
 \
 ``valgrind ./hsh``
 
