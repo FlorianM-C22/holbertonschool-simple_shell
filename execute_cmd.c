@@ -48,8 +48,8 @@ char *get_command(char *path, char *command)
 			return (NULL);
 		}
 		strcpy(full_path, token); /*Copy the directory path into the full path.*/
-		strcat(full_path, "/");/*Concatenate "/" to the end of full_path.*/
-		strcat(full_path, command);/*Concatenate command name to the end*/
+		strcat(full_path, "/"); /*Concatenate "/" to the end of full_path.*/
+		strcat(full_path, command); /*Concatenate command name to the end*/
 		if (file_exists(full_path))
 		{
 			return (full_path);
@@ -89,13 +89,13 @@ int execute_cmd(char *command, char *args[], data_t *data)
 	free(path);
 	if (result == -1)
 		exit(EXIT_FAILURE);
-	data->exit_status = result;
+	data->exit_status = result; /*Set exit status in the data struct*/
 	for (i = 0; args[i]; i++)
 	{
 		free(args[i]);
 		args[i] = NULL;
 	}
-
+	/*Return exit status*/
 	return (result);
 }
 
