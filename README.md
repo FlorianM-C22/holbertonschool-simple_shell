@@ -115,7 +115,7 @@ username@your-device:~$
     wait4 (man 2 wait4)
     write (man 2 write)
 ```
-### Memory checks
+**Memory checks**\
 Using [Valgrind](https://valgrind.org/)\
 \
 ``valgrind ./hsh``
