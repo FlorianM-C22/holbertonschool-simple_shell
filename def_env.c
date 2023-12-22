@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * def_env - Defining env
+ * def_env - Printing the env variable
  *
  * Return: void
  */

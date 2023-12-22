@@ -3,18 +3,20 @@
 /**
  * file_exists - checks if file exists
  * @filename: name of the file
- * Return: 0 SUCCESS
+ * Return: 1 SUCCESS
  */
 int file_exists(char *filename)
 {
+	/*Structure to store file information*/
 	struct stat filestats;
-
+	/*Use the stat function to retrieve information about the file.*/
 	if (stat(filename, &filestats) >= 0)
 	{
+		/*Check if the file is executable by the owner, group, or others.*/
 		if (filestats.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH))
-			return (1);
+			return (1); /*Return 1 = SUCCESS*/
 	}
-	return (0);
+	return (0); /*If not, return 0*/
 }
 
 /**
@@ -27,7 +29,7 @@ char *get_command(char *path, char *command)
 {
 	char *token = NULL;
 	char *full_path = NULL;
-
+	/*Check if the command is an absolute or relative path.*/
 	if (command[0] == '/' || command[0] == '.')
 	{
 		if (file_exists(command))
@@ -35,6 +37,7 @@ char *get_command(char *path, char *command)
 		else
 			return (NULL);
 	}
+	/*Tokenize the PATH variable and search for the command.*/
 	token = strtok(path, ":");
 	while (token != NULL)
 	{
@@ -44,18 +47,18 @@ char *get_command(char *path, char *command)
 			perror("malloc");
 			return (NULL);
 		}
-		strcpy(full_path, token);
-		strcat(full_path, "/");
-		strcat(full_path, command);
+		strcpy(full_path, token); /*Copy the directory path into the full path.*/
+		strcat(full_path, "/");/*Concatenate "/" to the end of full_path.*/
+		strcat(full_path, command);/*Concatenate command name to the end*/
 		if (file_exists(full_path))
 		{
 			return (full_path);
 		}
 		free(full_path);
 		full_path = NULL;
-		token = strtok(NULL, ":");
+		token = strtok(NULL, ":"); /*Move to next directory*/
 	}
-	return (NULL);
+	return (NULL); /*Return NULL if the command is not found*/
 }
 
 /**
@@ -106,8 +109,8 @@ int execute_cmd(char *command, char *args[], data_t *data)
  */
 int search_and_exec(char *command, char *args[], char *path, data_t *data)
 {
-	int result = -1;
-	int status = 0;
+	int result = -1; /*Result of the search and execution.*/
+	int status = 0; /*Status of the child process.*/
 	char *full_command = NULL;
 	/*Getting full command with get_command*/
 	full_command = get_command(path, command);
@@ -118,7 +121,7 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 		return (127);
 	} /*If command exists, call a fork and execute the command with args*/
 	else if (!fork() && execve(full_command, args, environ) == -1)
-	{
+	{	/*If execute failure, print error and set exit to 127*/
 		fprintf(stderr, "%s: %d: %s: not found\n", data->argv[0],
 				data->command_count, command);
 		data->exit_status = 127;
@@ -126,9 +129,9 @@ int search_and_exec(char *command, char *args[], char *path, data_t *data)
 	}
 	else
 	{
-		wait(&status);
-		data->exit_status = status / 256;
-		result = status / 256;
+		wait(&status); /*Parent process waits for the child to finish.*/
+		data->exit_status = status / 256; /*Set exit_status in the data struct*/
+		result = status / 256;/*Set exit_status in result.*/
 	}
 	free(full_command);
 	return (result);
