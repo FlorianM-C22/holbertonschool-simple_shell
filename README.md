@@ -115,6 +115,12 @@ username@your-device:~$
     wait4 (man 2 wait4)
     write (man 2 write)
 ```
+### Memory checks
+\
+Using [Valgrind](https://valgrind.org/)
+\
+``valgrind ./hsh``
+
 **For more information**\
 \
 Check the man page ``man ./man_1_simple_shell``
